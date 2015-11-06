@@ -1,0 +1,41 @@
+#!/bin/bash
+LC_ALL=C
+if [[ $USER != root ]]; then
+	echo -e "\e[00;31mERROR: DEBES SER ROOT\e[00m"
+	exit 1
+fi
+lock="/run/tor.lock"
+lock2="/run/i2p.lock"
+lock3="/run/mirouter.lock"
+persistencia="/usr/bin/persistencia"
+memoria=$(grep "MemTotal" /proc/meminfo | awk '{print $2}')
+cpu=$(lscpu | grep "MHz" | awk '{print $3}')
+miswap=$(fdisk -l | grep "swap" | awk '{print $1}')
+quien=$(who | cut -d' ' -f1 | sort | uniq)
+insta="apt -q update && apt -q -y --force-yes install"
+miyad='yad --skip-taskbar --button=ACEPTAR:1 --fixed --center --text-align=fill --borders=6'
+errores='yad --skip-taskbar --button=ACEPTAR:1 --fixed --center --text-align=fill --borders=6 --timeout=3 --title="ERROR"'
+advertencia='yad --skip-taskbar --button=ACEPTAR:1 --fixed --center --text-align=fill --borders=6 --title="ADVERTENCIA"'
+final='yad --skip-taskbar --button=ACEPTAR:1 --fixed --center --text-align=fill --borders=6 --timeout=3 --title="FINALIZADO"'
+progreso='yad --fixed --progress --pulsate --auto-kill --skip-taskbar --center'
+progresoz='zenity --progress --pulsate --no-cancel --auto-close'
+
+function espera () {
+	sleep 30 | "$progresoz" --text "Iniciando tor, por favor espere"
+}
+
+function progress_1 () {
+	"$progresoz" --text "Instalando Software, esto proceso puede tomar varios minutos, por favor espere"
+}
+
+function progress_2 () {
+	"$progreso" --progress-text="Instalando Software, esto proceso puede tomar varios minutos, por favor espere" --title="INSTALANDO"
+}
+
+function progress_limpiar_1 () {
+	"$progresoz" --text "Realizando limpieza"
+}
+
+function progress_limpiar_2 () {
+	"$progreso" --progress-text="Realizando limpieza" --title="LIMPIEZA"
+}
