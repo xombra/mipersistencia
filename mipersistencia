@@ -1,14 +1,12 @@
 #!/bin/bash
 LC_ALL=C
-trap "rm -f /run/mipersistencia.pid; exit" INT TERM EXIT
-echo "$BASHPID" > /run/mipersistencia.pid
+trap "rm -f /run/$(basename $0).pid; exit" INT TERM EXIT
+echo "$BASHPID" > /run/$(basename $0).pid
 source /usr/bin/variables
 if ! [[ -d /lib/live/mount/rootfs ]]; then
 	"$errores" --text="Este programa no puede ejecutarse desde una instalacion en un disco duro."
 	exit 1
 else
-	trap "rm -f /run/mipersistencia.pid; exit" INT TERM EXIT
-	echo "$BASHPID" > /run/mipersistencia.pid
 	donde="/mnt/miusb"
 	"$miyad" --timeout=5 --title="Notificacion" --text="Este procedimiento activara la persistencia para el directorio /home; La memoria usb solo debe contener la particion del sistema operativo."
 	dispositivo=$(fdisk -l | grep "Disco" | grep -v "loop" | grep -v "zram" | awk '{print $2}' | sed 's/.$//g' | yad --center --no-click --list --title="Seleccione dispositivo" --text="Seleccione el dispositivo donde copio el contenido de la imagen iso." --separator="" --column 'Dispositivo' --height 380 --width 150 --button="ACEPTAR":0)
@@ -27,10 +25,8 @@ else
 	mkswap "$donde"/swapfile.swp
 	umount -fl "$donde"
 	"$final" --text="Reinicie su sistema para activar la persistencia."
-	rm -f /run/mipersistencia.pid
-	trap - INT TERM EXIT
 	lxde-logout
 fi
-rm -f /run/mipersistencia.pid
+rm -f /run/$(basename $0).pid
 trap - INT TERM EXIT
 exit 0
