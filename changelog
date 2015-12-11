@@ -1,4 +1,16 @@
-commit 4423f2f30159efcef538f9ba66a86bca3759b492 (HEAD, origin/master, origin/HEAD, master)
+commit f313b5b68132b0656e1bf7b64c60cb0692552257 (HEAD, origin/master, origin/HEAD, master)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Thu Dec 10 21:16:31 2015 -0430
+
+    optimizaciones
+
+commit 9fd25aead9fedc31fae6747fd95adf55b1eac9be (tag: v0.1.1)
+Author: jose perez <sinfallas@gmail.com>
+Date:   Sun Dec 6 18:04:59 2015 -0430
+
+    * changelog
+
+commit 4423f2f30159efcef538f9ba66a86bca3759b492
 Author: jose perez <sinfallas@gmail.com>
 Date:   Sun Dec 6 18:01:41 2015 -0430
 
