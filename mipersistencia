@@ -3,7 +3,7 @@
 # Licence: GPL-2
 set -eu
 LC_ALL=C
-trap "rm -f /run/$(basename $0).pid; exit" INT TERM EXIT
+trap "rm -f /run/$(basename $0).pid; exit" 0 1 2 3 15
 echo "$BASHPID" > /run/$(basename $0).pid
 source /usr/bin/variables
 if ! [[ -d /lib/live/mount/rootfs ]]; then
@@ -31,5 +31,4 @@ else
 	lxde-logout
 fi
 rm -f /run/$(basename $0).pid
-trap - INT TERM EXIT
 exit 0
